@@ -35,7 +35,7 @@ setColor i = setSGR [SetColor Foreground Vivid $ colors !! i]
     where colors = [Black .. White] ++ [Red .. Yellow]
 
 ascii :: Int -> Char
-ascii i = chr $ ord ' ' + (10-i)
+ascii i = chr $ ord ' ' + 10 - i
 
 mandelbrot :: Screen -> [Int]
 mandelbrot s @ (Screen w h) = 
@@ -44,8 +44,8 @@ mandelbrot s @ (Screen w h) =
 intensity :: Int -> Int -> Screen -> Int
 intensity x y s @ (Screen w h) = iteration 0 0 sx sy 0 10
     where 
-    sx = -2.5 + 3.5 * fromIntegral(x) / fromIntegral(w)
-    sy = -1 + 2 * fromIntegral(y) / fromIntegral(h)
+    sx = -2.5 + 3.5 * fromIntegral x / fromIntegral w
+    sy = -1 + 2 * fromIntegral y / fromIntegral h
 
 iteration :: Double -> Double -> Double -> Double -> Int -> Int -> Int
 iteration x y sx sy i mi 
