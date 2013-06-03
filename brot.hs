@@ -12,8 +12,6 @@ main = do
     if length args /= 2 then
         putStrLn "Usage: brot width height"
     else do
-        clearScreen
-        setCursorPosition 0 0
         s <- return $ Screen (arg args 0) (arg args 1)
         showBrot s $ createBrot s
 
@@ -32,7 +30,7 @@ createBrot s @ (Screen w h) =
     [ascii $ intensity x y s | x <- [0..w-1], y <- [0..h-1]]
 
 ascii :: Int -> Char
-ascii i = chr $ ord ' ' + (i-1)
+ascii i = chr $ ord ' ' + (10-i)
 
 intensity :: Int -> Int -> Screen -> Int
 intensity x y s @ (Screen w h) = iteration 0 0 sx sy 0 10
