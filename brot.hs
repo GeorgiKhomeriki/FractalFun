@@ -32,7 +32,7 @@ showLine (x:xs) = setColor x >> putChar (ascii x) >> showLine xs
 
 setColor :: Int -> IO ()
 setColor i = setSGR [SetColor Foreground Vivid $ colors !! i] 
-    where colors = [Black .. White] ++ reverse [Black .. White]
+    where colors = [Black .. White] ++ [Red .. Yellow]
 
 mandelbrot :: Screen -> [Int]
 mandelbrot s @ (Screen w h) = 
