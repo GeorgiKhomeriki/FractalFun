@@ -30,10 +30,10 @@ createBrot s @ (Screen w h) =
     [ascii $ intensity x y s | x <- [0..w-1], y <- [0..h-1]]
 
 ascii :: Int -> Char
-ascii i = chr $ ord ' ' + (i-1) `div` 100
+ascii i = chr $ ord ' ' + (i-1)
 
 intensity :: Int -> Int -> Screen -> Int
-intensity x y s @ (Screen w h) = iteration 0 0 sx sy 0 1000 
+intensity x y s @ (Screen w h) = iteration 0 0 sx sy 0 10
     where 
     sx = -2.5 + 3.5 * fromIntegral(x) / fromIntegral(w)
     sy = -1 + 2 * fromIntegral(y) / fromIntegral(h)
