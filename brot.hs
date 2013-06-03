@@ -13,21 +13,30 @@ main = do
         putStrLn "Usage: brot width height"
     else do
         s <- return $ Screen (arg args 0) (arg args 1)
-        showBrot s $ createBrot s
+        showBrot s $ mandelbrot s
+        setSGR []
 
 arg :: Read a => [String] -> Int -> a
 arg args i = read $ args !! i
 
-showBrot :: Screen -> String -> IO ()
+showBrot :: Screen -> [Int] -> IO ()
 showBrot _ [] = return ()
 showBrot scr @ (Screen w _) str = do 
-    when (any (' ' /=) line) $ putStrLn line
+    showLine line
     showBrot scr $ drop w str
     where line = take w str
 
-createBrot :: Screen -> String
-createBrot s @ (Screen w h) = 
-    [ascii $ intensity x y s | x <- [0..w-1], y <- [0..h-1]]
+showLine :: [Int] -> IO ()
+showLine []     = putStrLn ""
+showLine (x:xs) = setColor x >> putChar (ascii x) >> showLine xs
+
+setColor :: Int -> IO ()
+setColor i = setSGR [SetColor Foreground Vivid $ colors !! i] 
+    where colors = [Black .. White] ++ reverse [Black .. White]
+
+mandelbrot :: Screen -> [Int]
+mandelbrot s @ (Screen w h) = 
+    [intensity x y s | x <- [0 .. w-1], y <- [0 .. h-1]]
 
 ascii :: Int -> Char
 ascii i = chr $ ord ' ' + (10-i)
