@@ -39,7 +39,7 @@ ascii i = chr $ ord ' ' + (10-i)
 
 mandelbrot :: Screen -> [Int]
 mandelbrot s @ (Screen w h) = 
-    [intensity x y s | x <- [0 .. w-1], y <- [0 .. h-1]]
+    [intensity x y s | y <- [0 .. h-1], x <- [0 .. w-1]]
 
 intensity :: Int -> Int -> Screen -> Int
 intensity x y s @ (Screen w h) = iteration 0 0 sx sy 0 10
@@ -47,7 +47,7 @@ intensity x y s @ (Screen w h) = iteration 0 0 sx sy 0 10
     sx = -2.5 + 3.5 * fromIntegral(x) / fromIntegral(w)
     sy = -1 + 2 * fromIntegral(y) / fromIntegral(h)
 
-iteration :: Float -> Float -> Float -> Float -> Int -> Int -> Int
+iteration :: Double -> Double -> Double -> Double -> Int -> Int -> Int
 iteration x y sx sy i mi 
     | x^2 + y^2 < 2*2 && i < mi = 
         iteration (x^2 - y^2 + sx) (2*x*y + sy) sx sy (i+1) mi
