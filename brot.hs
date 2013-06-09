@@ -23,8 +23,8 @@ showBrot :: Screen -> [Int] -> IO ()
 showBrot _ [] = return ()
 showBrot scr @ (Screen w _) str = do 
     showLine line
-    showBrot scr $ drop w str
-    where line = take w str
+    showBrot scr rest
+    where (line, rest) = splitAt w str
 
 showLine :: [Int] -> IO ()
 showLine []     = putStrLn ""
