@@ -12,7 +12,7 @@ main = do
     if length args /= 2 then
         putStrLn "Usage: brot width height"
     else do
-        s <- return $ Screen (arg args 0) (arg args 1)
+        let s = Screen (arg args 0) (arg args 1)
         showBrot s $ mandelbrot s
         setSGR []
 
