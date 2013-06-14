@@ -34,7 +34,7 @@ showBrot scr @ (Size w _) str = do
 -- display a single line of the mandelbrot
 showLine :: [Int] -> IO ()
 showLine []     = putStrLn ""
-showLine (x:xs) = setColor x >> putChar $ ascii x >> showLine xs
+showLine (x:xs) = setColor x >> putChar (ascii x) >> showLine xs
 
 -- given an intensity, sets a specific color
 setColor :: Int -> IO ()
