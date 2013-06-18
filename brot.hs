@@ -1,8 +1,10 @@
 module Main where
 import System.Environment
 import System.Console.ANSI
+import System.Exit
 import Control.Monad
 import Data.Char
+import Safe (readMay)
 
 data Size       = Size Int Int
 type Mandelbrot = [Int]
@@ -15,13 +17,20 @@ main = do
     if length args /= 2 then
         putStrLn "Usage: brot width height"
     else do
-        let s = Size (arg args 0) (arg args 1)
+        w <- arg args 0
+        h <- arg args 1
+        let s = Size w h
         showBrot s $ mandelbrot s
         setSGR []
 
--- read a specific argument
-arg :: Read a => [String] -> Int -> a
-arg args i = read $ args !! i
+-- read a specific argument and check whether it's valid
+-- if not, print message and exit
+arg :: [String] -> Int -> IO Int
+arg args i = case readMay $ args !! i of
+                Nothing -> do 
+                    putStrLn "You've entered an invalid argument"
+                    exitFailure
+                Just x  -> return x
 
 -- display the given mandelbrot
 showBrot :: Size -> Mandelbrot -> IO ()
