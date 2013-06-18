@@ -17,20 +17,21 @@ main = do
     if length args /= 2 then
         putStrLn "Usage: brot width height"
     else do
-        w <- getArg args 0
-        h <- getArg args 1
-        let s = Size w h
-        showBrot s $ mandelbrot s
-        setSGR []
+        let maybeSize = do
+                    w <- readMay $ args !! 0
+                    h <- readMay $ args !! 1
+                    return $ Size w h
+        maybeBrot maybeSize
 
--- read a specific argument and check whether it's valid
--- if not, print message and exit
-getArg :: [String] -> Int -> IO Int
-getArg args i = case readMay $ args !! i of
-                Nothing -> do 
-                           putStrLn "You've entered an invalid argument"
-                           exitFailure
-                Just x  -> return x
+-- checks whether Size is not Nothing
+-- if so, creates and prints mandelbrot
+maybeBrot :: Maybe Size -> IO ()
+maybeBrot Nothing  = do
+                putStrLn "You've provided an invalid argument"
+                return ()
+maybeBrot (Just s) = do
+                showBrot s $ mandelbrot s
+                setSGR []
 
 -- display the given mandelbrot
 showBrot :: Size -> Mandelbrot -> IO ()
