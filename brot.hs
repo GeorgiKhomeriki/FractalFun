@@ -17,19 +17,19 @@ main = do
     if length args /= 2 then
         putStrLn "Usage: brot width height"
     else do
-        w <- arg args 0
-        h <- arg args 1
+        w <- getArg args 0
+        h <- getArg args 1
         let s = Size w h
         showBrot s $ mandelbrot s
         setSGR []
 
 -- read a specific argument and check whether it's valid
 -- if not, print message and exit
-arg :: [String] -> Int -> IO Int
-arg args i = case readMay $ args !! i of
+getArg :: [String] -> Int -> IO Int
+getArg args i = case readMay $ args !! i of
                 Nothing -> do 
-                    putStrLn "You've entered an invalid argument"
-                    exitFailure
+                           putStrLn "You've entered an invalid argument"
+                           exitFailure
                 Just x  -> return x
 
 -- display the given mandelbrot
@@ -61,7 +61,7 @@ mandelbrot s @ (Size w h) =
 
 -- compute intensity of the point at (x, y)
 intensity :: Int -> Int -> Size -> Int
-intensity x y s @ (Size w h) = iteration 0 0 sx sy 0 10
+intensity x y (Size w h) = iteration 0 0 sx sy 0 10
     where 
     sx = -2.5 + 3.5 * fromIntegral x / fromIntegral w
     sy = -1 + 2 * fromIntegral y / fromIntegral h
