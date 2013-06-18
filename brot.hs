@@ -34,11 +34,9 @@ getArg args i = case readMay $ args !! i of
 
 -- display the given mandelbrot
 showBrot :: Size -> Mandelbrot -> IO ()
-showBrot _ [] = return ()
-showBrot scr @ (Size w _) str = do 
-    showLine line
-    showBrot scr rest
-    where (line, rest) = splitAt w str
+showBrot _ []                = return ()
+showBrot s @ (Size w _) brot = showLine line >> showBrot s rest
+    where (line, rest) = splitAt w brot
 
 -- display a single line of the mandelbrot
 showLine :: [Int] -> IO ()
@@ -64,7 +62,7 @@ intensity :: Int -> Int -> Size -> Int
 intensity x y (Size w h) = iteration 0 0 sx sy 0 10
     where 
     sx = -2.5 + 3.5 * fromIntegral x / fromIntegral w
-    sy = -1 + 2 * fromIntegral y / fromIntegral h
+    sy = -1.0 + 2.0 * fromIntegral y / fromIntegral h
 
 -- helper function for intensity
 iteration :: Double -> Double -> Double -> Double -> Int -> Int -> Int
