@@ -1,8 +1,6 @@
 module Main where
 import System.Environment
 import System.Console.ANSI
-import System.Exit
-import Control.Monad
 import Data.Char
 import Safe (readMay)
 
@@ -26,12 +24,10 @@ main = do
 -- checks whether Size is not Nothing
 -- if so, creates and prints mandelbrot
 maybeBrot :: Maybe Size -> IO ()
-maybeBrot Nothing  = do
-                putStrLn "You've provided an invalid argument"
-                return ()
+maybeBrot Nothing  = putStrLn "You've provided an invalid argument"
 maybeBrot (Just s) = do
-                showBrot s $ mandelbrot s
-                setSGR []
+                    showBrot s $ mandelbrot s
+                    setSGR []
 
 -- display the given mandelbrot
 showBrot :: Size -> Mandelbrot -> IO ()
