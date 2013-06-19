@@ -4,8 +4,8 @@ import System.Console.ANSI
 import Safe (readMay)
 
 data Size   = Size Int Int
-type Carpet = [Tile]
 type Tile   = Bool
+type Carpet = [Tile]
 
 main :: IO ()
 main = do
@@ -36,8 +36,7 @@ showTile True  = "#"
 showTile False = " "
 
 carpet :: Size -> Carpet
-carpet (Size w h) = map isIn [(x, y) | y <- [1..h], x <- [1..w]]
-    where isIn = uncurry isInCarpet
+carpet (Size w h) = [isInCarpet x y | y <- [1..h], x <- [1..w]]
 
 isInCarpet :: Int -> Int -> Bool
 isInCarpet x y
