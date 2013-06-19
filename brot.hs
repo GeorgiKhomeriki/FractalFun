@@ -41,17 +41,17 @@ showBrot s @ (Size w _) brot = showLine line >> showBrot s rest
 
 -- display a single line of the mandelbrot
 showLine :: [Int] -> IO ()
-showLine []     = putStrLn ""
-showLine (x:xs) = setColor x >> putChar (ascii x) >> showLine xs
+showLine = foldr showL $ putStrLn ""
+    where showL x y = setColor x >> ascii x >> y
 
 -- given an intensity, sets a specific color
 setColor :: Int -> IO ()
 setColor i = setSGR [SetColor Foreground Vivid $ colors !! i] 
     where colors = [Black .. White] ++ [Red .. Yellow]
 
--- translate an intensity to a character
-ascii :: Int -> Char
-ascii i = chr $ ord ' ' + 10 - i
+-- print an intensity as a character
+ascii :: Int -> IO ()
+ascii i = putChar . chr $ ord ' ' + 10 - i
 
 -- given a Size, create a mandelbrot
 mandelbrot :: Size -> Mandelbrot
