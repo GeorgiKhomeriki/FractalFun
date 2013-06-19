@@ -29,10 +29,10 @@ maybeCarpet (Just s) = showCarpet s $ carpet s
 showCarpet :: Size -> Carpet -> IO ()
 showCarpet _ []             = return ()
 showCarpet s @ (Size w _) c = do
+                            let (line, rest) = splitAt w c
                             mapM_ (putChar . showTile) line
                             putStrLn ""
                             showCarpet s rest
-    where (line, rest) = splitAt w c
 
 -- convert Tile to String
 showTile :: Tile -> Char
