@@ -38,12 +38,12 @@ triangle s @ (Size w h) p = do
         setCursorPosition (h-(round y)) (round x)
         setSGR [SetColor Foreground Vivid c]
         putChar '^'
-        input <- timeout 1000 getChar
+        input <- timeout 10 getChar
         case input of
             Just i | i == 'q'  -> setCursorPosition 0 0 >> setSGR [] >> clearScreen 
                    | otherwise -> step np
             Nothing            -> step np
-    where step = triangle s
+    where step p = hFlush stdout >> triangle s p
 
 scale :: Size -> Point -> Point
 scale (Size w h) (x, y) = (x * fromIntegral w, y * fromIntegral h)
