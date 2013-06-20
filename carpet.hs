@@ -7,7 +7,7 @@ type Tile   = Bool
 type Carpet = [Tile]
 
 -- given width and height as arguments
--- prints an ascii sirpinski carpet
+-- prints an ascii sierpinski carpet
 main :: IO ()
 main = do
     args <- getArgs
