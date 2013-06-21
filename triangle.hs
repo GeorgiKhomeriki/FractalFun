@@ -31,23 +31,28 @@ maybeTriangle (Just s) = do
                 clearScreen 
                 triangle s (0, 0)
 
+-- calculates the next Point, scales and prints it
+-- if 'q' isn't pressed repeats recursively
 triangle :: Size -> Point -> IO ()
 triangle s @ (Size w h) p = do
         (np, c) <- nextPoint p
-        let (x, y) = scale s p
-        setCursorPosition (h-(round y)) (round x)
+        let (x, y) = scale s np
+        setCursorPosition (h - round y) (round x)
         setSGR [SetColor Foreground Vivid c]
         putChar '^'
-        input <- timeout 10 getChar
+        input <- timeout 1 getChar
         case input of
             Just i | i == 'q'  -> setCursorPosition 0 0 >> setSGR [] >> clearScreen 
                    | otherwise -> step np
             Nothing            -> step np
     where step p = hFlush stdout >> triangle s p
 
+-- scale a point to screen coordinates
 scale :: Size -> Point -> Point
 scale (Size w h) (x, y) = (x * fromIntegral w, y * fromIntegral h)
 
+-- randomly selects the next tranformation
+-- and returns the next Point with it's Color
 nextPoint :: Point -> IO (Point, Color)
 nextPoint p @ (x, y) = do
                 r <- randomRIO (0,2) :: IO Int
