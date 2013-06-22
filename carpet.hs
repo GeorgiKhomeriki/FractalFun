@@ -1,5 +1,6 @@
 module Main where
 import System.Environment
+import Control.Applicative
 import Safe (readMay)
 
 data Size   = Size Int Int
@@ -41,7 +42,7 @@ showTile False = ' '
 
 -- create a Carpet of given Size
 carpet :: Size -> Carpet
-carpet (Size w h) = [isInCarpet x y | y <- [1..h], x <- [1..w]]
+carpet (Size w h) = isInCarpet <$> [1..h] <*> [1..w]
 
 -- check whether a point (x, y) is in the Carpet
 isInCarpet :: Int -> Int -> Bool

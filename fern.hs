@@ -7,7 +7,7 @@ import System.IO
 import Safe (readMay)
 
 data Size   = Size Int Int
-type Point  = (Float, Float) 
+type Point  = (Double, Double) 
 
 -- given width and height as arguments
 -- prints an ascii Barnsley fern
